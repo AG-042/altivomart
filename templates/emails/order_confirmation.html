@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Order Confirmation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body style="font-family: Arial, sans-serif; color:#111; line-height:1.5; margin:0; padding:24px;">
+    <div style="max-width:680px; margin:0 auto;">
+        <h2 style="margin:0 0 12px;">Thank you for your order, {{ order.customer_name }}!</h2>
+        <p style="margin:0 0 16px;">Your order <strong>#{{ order.id }}</strong> has been received and is being processed.</p>
+
+        <div style="background:#f7fafc; border:1px solid #e5e7eb; border-radius:8px; padding:16px; margin-bottom:16px;">
+            <p style="margin:0 0 8px;"><strong>Tracking Code:</strong> {{ order.tracking_code }}</p>
+            <p style="margin:0;">
+                Track your order anytime:
+                <a href="https://altivomart.com/track?code={{ order.tracking_code }}" style="color:#2563eb; text-decoration:none;">Open tracking page</a>
+            </p>
+        </div>
+
+        {% if order.delivery_info %}
+        <div style="background:#f7fafc; border:1px solid #e5e7eb; border-radius:8px; padding:16px; margin-bottom:16px;">
+            <p style="margin:0 0 6px;"><strong>Estimated Delivery:</strong> {{ order.delivery_info.estimated_delivery }}</p>
+            <p style="margin:0;"><strong>Current Delivery Status:</strong> {{ order.delivery_info.delivery_status|title }}</p>
+        </div>
+        {% endif %}
+
+        <h3 style="margin:16px 0 8px;">Order Summary</h3>
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse; border:1px solid #e5e7eb;">
+            <thead>
+                <tr style="background:#f9fafb;">
+                    <th align="left" style="padding:8px; border-bottom:1px solid #e5e7eb; font-size:14px;">Item</th>
+                    <th align="center" style="padding:8px; border-bottom:1px solid #e5e7eb; font-size:14px;">Qty</th>
+                    <th align="right" style="padding:8px; border-bottom:1px solid #e5e7eb; font-size:14px;">Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td style="padding:8px; border-bottom:1px solid #f1f5f9; font-size:14px;">{{ item.product.name }}</td>
+                    <td align="center" style="padding:8px; border-bottom:1px solid #f1f5f9; font-size:14px;">{{ item.quantity }}</td>
+                    <td align="right" style="padding:8px; border-bottom:1px solid #f1f5f9; font-size:14px;">₦{{ item.total_price }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2" align="right" style="padding:10px; font-weight:bold;">Total</td>
+                    <td align="right" style="padding:10px; font-weight:bold;">₦{{ order.total_price }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin:16px 0 8px;">Delivery Address</h3>
+        <p style="margin:0 0 16px;">
+            {{ order.address }}
+            {% if order.city %}, {{ order.city }}{% endif %}
+            {% if order.state %}, {{ order.state }}{% endif %}
+            {% if order.landmark %}<br /><span style="color:#64748b;">Landmark: {{ order.landmark }}</span>{% endif %}
+        </p>
+
+        <p style="margin:0 0 4px; font-weight:bold;">Payment</p>
+        <p style="margin:0 0 16px;">Pay on delivery.</p>
+
+        <p style="margin:16px 0 4px; font-weight:bold;">Need help?</p>
+        <p style="margin:0;">Reply to this email or contact us at
+            <a href="mailto:support@altivomart.com" style="color:#2563eb; text-decoration:none;">support@altivomart.com</a>.
+        </p>
+
+        <p style="margin:24px 0 0; color:#64748b;">Thank you for choosing Altivomart!</p>
+    </div>
+</body>
+</html>

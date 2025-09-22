@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Order Status Update</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body style="font-family: Arial, sans-serif; color:#111; line-height:1.5; margin:0; padding:24px;">
+    <div style="max-width:680px; margin:0 auto;">
+        <h2 style="margin:0 0 12px;">Order Status Update</h2>
+        
+        <p style="margin:0 0 8px;">Hi {{ order.customer_name }},</p>
+        
+        <p style="margin:0 0 12px;">Your order <strong>#{{ order.id }}</strong> status has been updated.</p>
+        <p style="margin:0 0 8px;"><strong>Previous:</strong> {{ old_status|title }}</p>
+        <p style="margin:0 0 16px;"><strong>Current:</strong> {{ new_status|title }}</p>
+        
+        <div style="background:#f7fafc; border:1px solid #e5e7eb; border-radius:8px; padding:16px; margin-bottom:16px;">
+            <p style="margin:0 0 8px;"><strong>Tracking Code:</strong> {{ order.tracking_code }}</p>
+            <p style="margin:0;">
+                Track your order:
+                <a href="https://altivomart.com/track?code={{ order.tracking_code }}" style="color:#2563eb; text-decoration:none;">Open tracking page</a>
+            </p>
+        </div>
+
+        {% if order.delivery_info %}
+        <div style="background:#f7fafc; border:1px solid #e5e7eb; border-radius:8px; padding:16px; margin-bottom:16px;">
+            <p style="margin:0 0 6px;"><strong>Delivery Status:</strong> {{ order.delivery_info.delivery_status|title }}</p>
+            {% if order.delivery_info.estimated_delivery %}
+            <p style="margin:0 0 6px;"><strong>Estimated Delivery:</strong> {{ order.delivery_info.estimated_delivery }}</p>
+            {% endif %}
+            {% if order.delivery_info.tracking_number %}
+            <p style="margin:0;"><strong>Courier Tracking:</strong> {{ order.delivery_info.tracking_number }}</p>
+            {% endif %}
+        </div>
+        {% endif %}
+        
+        {% if order.status == 'on_delivery' %}
+        <p style="margin:0 0 12px;">Great news! Your order is on the way.</p>
+        {% elif order.status == 'delivered' %}
+        <p style="margin:0 0 12px;">Your order has been delivered. We hope you enjoy your purchase!</p>
+        {% endif %}
+        
+        <p style="margin:0 0 16px;"><strong>Order Total:</strong> ₦{{ order.total_price }}</p>
+        
+        <p style="margin:0;">If you have any questions, reply to this email or contact us at
+            <a href="mailto:support@altivomart.com" style="color:#2563eb; text-decoration:none;">support@altivomart.com</a>.
+        </p>
+    </div>
+</body>
+</html>
