@@ -47,6 +47,7 @@ def send_status_update(order, old_status):
         'order': order,
         'old_status': old_status,
         'new_status': order.status,
+        'tracking_base_url': getattr(settings, 'TRACKING_BASE_URL', 'https://altivomart.com/track'),
     })
     plain_message = strip_tags(html_message)
     

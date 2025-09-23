@@ -184,6 +184,9 @@ EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'False') == 'False'
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
+# Tracking base URL used in emails
+TRACKING_BASE_URL = os.getenv('TRACKING_BASE_URL', 'https://altivomart.com/track')
+
 # Order status choices
 ORDER_STATUS_CHOICES = [
     ('pending', 'Pending'),

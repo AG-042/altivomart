@@ -1,4 +1,5 @@
 import { OrderTracking } from "@/components/order-tracking";
+import { Suspense } from "react";
 
 export default function TrackPage() {
   return (
@@ -8,7 +9,9 @@ export default function TrackPage() {
           <h1 className="text-3xl font-bold text-secondary mb-2">Track Your Order</h1>
           <p className="text-muted">Enter your order details to track delivery status</p>
         </div>
-        <OrderTracking />
+        <Suspense fallback={<div className="text-center text-muted">Loading...</div>}>
+          <OrderTracking />
+        </Suspense>
       </div>
     </div>
   );

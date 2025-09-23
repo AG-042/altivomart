@@ -1,4 +1,5 @@
 import { CheckoutForm } from "../../components/checkout-form";
+import { Suspense } from "react";
 
 export default function CheckoutPage() {
   return (
@@ -8,7 +9,9 @@ export default function CheckoutPage() {
           <h1 className="text-3xl font-bold text-secondary mb-2">Checkout</h1>
           <p className="text-muted">Complete your order with pay-on-delivery</p>
         </div>
-        <CheckoutForm />
+        <Suspense fallback={<div className="text-center text-muted">Loading...</div>}>
+          <CheckoutForm />
+        </Suspense>
       </div>
     </div>
   );
