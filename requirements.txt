@@ -8,6 +8,8 @@ django-extensions==4.1
 django-filter==25.1
 djangorestframework==3.16.1
 drf-spectacular==0.28.0
+dj-database-url==2.3.0
+whitenoise==6.8.2
 idna==3.10
 inflection==0.5.1
 jsonschema==4.25.1
