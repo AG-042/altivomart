@@ -8,17 +8,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronLeft, Truck, Shield, Clock, Info, Heart, Share2, Star, ShoppingCart, Plus, Minus } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCart } from "@/contexts/cart-context";
+import { mediaURL } from "@/lib/utils";
 
 interface ProductDetailsProps {
   product: Product;
 }
 
 // Helper function to construct full image URLs
-const getImageUrl = (imagePath: string) => {
-  if (!imagePath) return null;
-  if (imagePath.startsWith('http')) return imagePath;
-  return `http://localhost:8000${imagePath}`;
-};
+const getImageUrl = (imagePath: string) => mediaURL(imagePath);
 
 export function ProductDetails({ product }: ProductDetailsProps) {
   const [selectedImage, setSelectedImage] = useState(0);
@@ -27,7 +24,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
   const { addItem } = useCart();
   
   // Use images array from backend or fallback to main_image
-  const imageUrls = product.images?.map(img => img.image).filter(Boolean) || 
+  const imageUrls = product.images?.map(img => img.image).map(mediaURL).filter(Boolean) as string[] ||
                    (product.main_image ? [getImageUrl(product.main_image)!].filter(Boolean) : []);
 
   const handleAddToCart = () => {

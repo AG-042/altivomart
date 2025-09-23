@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Product } from "@/lib/api";
 import { useCart } from "@/contexts/cart-context";
 import { ShoppingCart, ShoppingBag, Plus, Minus, Star } from "lucide-react";
+import { mediaURL } from "@/lib/utils";
 
 interface ProductCardProps {
   product: Product;
@@ -20,22 +21,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const [quantity, setQuantity] = useState(1);
 
   // Helper function to construct full image URL
-  const getImageUrl = (imagePath: string | null): string | null => {
-    if (!imagePath) return null;
-    
-    // If it's already a full URL, return as is
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-      return imagePath;
-    }
-    
-    // If it starts with /media/, construct full URL to backend
-    if (imagePath.startsWith('/media/')) {
-      return `http://localhost:8000${imagePath}`;
-    }
-    
-    // If it's just a relative path, add /media/ prefix
-    return `http://localhost:8000/media/${imagePath}`;
-  };
+  const getImageUrl = (imagePath: string | null): string | null => mediaURL(imagePath || "");
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {

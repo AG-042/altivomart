@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ShoppingBag, Truck, Shield, Star, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { fetchProducts, Product } from "@/lib/api";
+import { mediaURL } from "@/lib/utils";
 
 export function HeroSection() {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
@@ -15,22 +16,7 @@ export function HeroSection() {
   const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
 
   // Helper function to construct full image URL
-  const getImageUrl = (imagePath: string | null): string | null => {
-    if (!imagePath) return null;
-    
-    // If it's already a full URL, return as is
-    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-      return imagePath;
-    }
-    
-    // If it starts with /media/, construct full URL to backend
-    if (imagePath.startsWith('/media/')) {
-      return `http://localhost:8000${imagePath}`;
-    }
-    
-    // If it's just a relative path, add /media/ prefix
-    return `http://localhost:8000/media/${imagePath}`;
-  };  useEffect(() => {
+  const getImageUrl = (imagePath: string | null): string | null => mediaURL(imagePath || "");  useEffect(() => {
     const loadFeaturedProducts = async () => {
       try {
         const products = await fetchProducts();
