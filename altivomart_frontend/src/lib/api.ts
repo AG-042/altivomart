@@ -86,10 +86,24 @@ export interface DeliveryTracking {
 // API Functions
 export const fetchProducts = async (): Promise<Product[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/products/`);
+    const response = await fetch(`${API_BASE_URL}/products/`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Add cache control for Vercel
+      cache: 'no-store',
+    });
+    
     if (!response.ok) {
+      console.error('API Response Error:', {
+        status: response.status,
+        statusText: response.statusText,
+        url: response.url
+      });
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    
     const data = await response.json();
     
     // Handle paginated response from Django REST framework
@@ -105,7 +119,8 @@ export const fetchProducts = async (): Promise<Product[]> => {
     throw new Error('Invalid data format received from server');
   } catch (error) {
     console.error('Error fetching products:', error);
-    throw error;
+    // Return empty array instead of throwing to prevent app crash
+    return [];
   }
 };
 
