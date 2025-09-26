@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-import dj_database_url
 
 # Load environment variables from .env file
 load_dotenv()
@@ -32,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # For cPanel hosting - add your domain here
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,yourdomain.com,www.yourdomain.com').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,api.altivomart.com').split(',')
 
 # Additional security settings for production - moved to bottom with other security settings
 
@@ -96,26 +95,13 @@ WSGI_APPLICATION = 'altivomart_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Use SQLite for all environments (development and production)
 DATABASES = {
-    'default': dj_database_url.parse(os.getenv('DATABASE_URL', ''), conn_max_age=600, ssl_require=not DEBUG) if os.getenv('DATABASE_URL') else {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-# Alternative MySQL configuration for cPanel
-if os.getenv('CPANEL_MYSQL'):
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.getenv('DB_NAME', ''),
-        'USER': os.getenv('DB_USER', ''),
-        'PASSWORD': os.getenv('DB_PASSWORD', ''),
-        'HOST': os.getenv('DB_HOST', 'localhost'),
-        'PORT': os.getenv('DB_PORT', '3306'),
-        'OPTIONS': {
-            'sql_mode': 'STRICT_TRANS_TABLES',
-        },
-    }
 
 
 # Password validation
@@ -209,7 +195,7 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@altivomart.com')
 SERVER_EMAIL = os.getenv('SERVER_EMAIL', DEFAULT_FROM_EMAIL)
 
 # Tracking base URL used in emails
-TRACKING_BASE_URL = os.getenv('TRACKING_BASE_URL', 'https://altivomart.com/track')
+TRACKING_BASE_URL = os.getenv('TRACKING_BASE_URL', 'https://api.altivomart.com//track')
 
 # Security settings (only applied when not in DEBUG mode)
 if not DEBUG:

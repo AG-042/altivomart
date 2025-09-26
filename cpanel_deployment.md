@@ -35,14 +35,12 @@ Set these in cPanel Python app environment or in a .env file:
 SECRET_KEY=your-50-character-secret-key-here
 DEBUG=False
 ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
-DATABASE_URL=mysql://username:password@localhost/database_name
 CORS_ALLOWED_ORIGINS=https://yourdomain.com,https://your-frontend-url.com
 ```
 
 ### 5. Database Setup
-- Create MySQL database in cPanel
-- Update DATABASE_URL with your cPanel database credentials
-- Run migrations via SSH or cPanel terminal:
+The application uses SQLite database (db.sqlite3 file) - no additional database setup needed in cPanel.
+Run migrations via SSH or cPanel terminal:
 ```bash
 python manage.py migrate
 python manage.py collectstatic --noinput
@@ -72,9 +70,9 @@ NEXT_PUBLIC_API_URL=https://yourdomain.com/api
 - Check error logs in cPanel
 
 ### Issue: Database connection
-- Ensure DATABASE_URL format is correct for MySQL
-- Check database user has proper permissions
-- Verify hostname (usually localhost for cPanel)
+- SQLite database (db.sqlite3) is included in your deployment
+- No additional database setup required
+- Ensure db.sqlite3 has proper file permissions (644 or 664)
 
 ### Issue: Static files not serving
 - Run collectstatic command
