@@ -36,8 +36,8 @@ db.sqlite3-journal
 .env.test.local
 .env.production.local
 
-# Media files (optional - depends on your deployment strategy)
-media/
+# Media files - including in deployment for cPanel
+# media/
 
 # Static files
 staticfiles/

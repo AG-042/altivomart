@@ -44,19 +44,37 @@ Run migrations via SSH or cPanel terminal:
 ```bash
 python manage.py migrate
 python manage.py collectstatic --noinput
+python manage.py check_media  # Verify media files are working
 ```
 
-### 6. Static Files
-- Ensure STATIC_ROOT points to a web-accessible directory
-- Run collectstatic command
-- Configure cPanel to serve static files from /static/ URL
+### 6. Static and Media Files Setup
 
-### 7. Media Files
-- Create media directory in public_html
-- Ensure proper permissions (755 for directories, 644 for files)
-- Update MEDIA_URL and MEDIA_ROOT in settings
+#### Static Files (CSS, JS, Admin files)
+1. Static files are handled by WhiteNoise automatically
+2. The `staticfiles/` folder will be created after running collectstatic
+3. No additional cPanel configuration needed
 
-### 8. Frontend Configuration
+#### Media Files (Product images, uploads)
+1. Your `media/` folder with product images is included in the deployment
+2. Django serves media files automatically through `/media/` URL
+3. Images will be accessible at: `https://yourdomain.com/media/products/image.jpg`
+
+#### File Permissions on cPanel
+Set proper permissions after uploading:
+```bash
+chmod -R 755 media/
+chmod -R 644 media/products/*
+chmod -R 755 staticfiles/
+```
+
+#### Image Loading in Frontend
+Your frontend should access images like this:
+```javascript
+// In your React components
+const imageUrl = `${process.env.NEXT_PUBLIC_API_URL.replace('/api', '')}/media/products/image.jpg`;
+```
+
+### 7. Frontend Configuration
 Update your Next.js frontend .env file:
 ```
 NEXT_PUBLIC_API_URL=https://yourdomain.com/api
@@ -75,9 +93,21 @@ NEXT_PUBLIC_API_URL=https://yourdomain.com/api
 - Ensure db.sqlite3 has proper file permissions (644 or 664)
 
 ### Issue: Static files not serving
-- Run collectstatic command
-- Check STATIC_ROOT path
-- Ensure web server can access static directory
+- Run collectstatic command: `python manage.py collectstatic --noinput`
+- Check STATIC_ROOT path in settings.py
+- Ensure WhiteNoise is installed and configured
+
+### Issue: Images not loading
+- **Check file permissions**: `chmod 755 media/` and `chmod 644 media/products/*`
+- **Verify media URL**: Images should be at `https://yourdomain.com/media/products/filename.jpg`
+- **Frontend environment**: Update `NEXT_PUBLIC_API_ORIGIN=https://yourdomain.com` in frontend .env
+- **Django URLs**: Ensure media URLs are configured in urls.py
+- **File upload**: Make sure media files are uploaded to cPanel with your project
+
+### Issue: 404 errors for media files
+- Check if media folder exists in your cPanel file manager
+- Verify Django is serving media URLs (check urls.py configuration)
+- Test direct access: `https://yourdomain.com/media/products/test-image.jpg`
 
 ### Issue: CORS errors
 - Add your frontend domain to CORS_ALLOWED_ORIGINS

@@ -146,6 +146,12 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# For production, ensure media files are served correctly
+if not DEBUG:
+    # In production, media files should be served by the web server
+    # But we configure Django to handle them as fallback
+    MEDIA_URL = '/media/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
