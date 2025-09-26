@@ -32,7 +32,7 @@ pip install -r requirements.txt
 ### 4. Environment Variables
 Set these in cPanel Python app environment or in a .env file:
 ```
-SECRET_KEY=your-50-character-secret-key-here
+SECRET_KEY=RjakBxC015RpWaR-2poTu-Ti^yudXC8BvkrhZp@PeHEwXF+8%T
 DEBUG=False
 ALLOWED_HOSTS=yourdomain.com,www.yourdomain.com
 CORS_ALLOWED_ORIGINS=https://yourdomain.com,https://your-frontend-url.com
@@ -88,9 +88,28 @@ const imageUrl = `${process.env.NEXT_PUBLIC_API_URL.replace('/api', '')}/media/p
 ```
 
 ### 7. Frontend Configuration
-Update your Next.js frontend .env file:
-```
+
+#### For Frontend Deployment (Vercel/Netlify)
+Create/update your frontend `.env.production` file:
+```bash
+# Replace yourdomain.com with your actual cPanel domain
 NEXT_PUBLIC_API_URL=https://yourdomain.com/api
+NEXT_PUBLIC_API_ORIGIN=https://yourdomain.com
+```
+
+#### Image Loading Fix
+If images aren't loading in production, ensure:
+1. **Frontend environment variables** are set correctly
+2. **CORS is properly configured** in Django settings
+3. **Media URLs are accessible** - test: `https://yourdomain.com/media/products/image.jpg`
+
+#### Debug Images (Temporary)
+Add this to your frontend homepage to debug image loading:
+```tsx
+import { ImageDebugger } from '@/components/image-debugger';
+
+// Add this inside your page component
+<ImageDebugger />
 ```
 
 ## Common cPanel Issues & Solutions

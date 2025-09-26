@@ -16,7 +16,12 @@ export function HeroSection() {
   const [imageErrors, setImageErrors] = useState<{[key: string]: boolean}>({});
 
   // Helper function to construct full image URL
-  const getImageUrl = (imagePath: string | null): string | null => mediaURL(imagePath || "");  useEffect(() => {
+  const getImageUrl = (imagePath: string | null): string | null => {
+    if (!imagePath) return null;
+    const url = mediaURL(imagePath);
+    console.log('HeroSection - Image URL constructed:', { imagePath, url });
+    return url;
+  };  useEffect(() => {
     const loadFeaturedProducts = async () => {
       try {
         const products = await fetchProducts();

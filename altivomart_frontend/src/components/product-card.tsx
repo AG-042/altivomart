@@ -20,8 +20,13 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
   const [imageError, setImageError] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  // Helper function to construct full image URL
-  const getImageUrl = (imagePath: string | null): string | null => mediaURL(imagePath || "");
+  // Helper function to construct full image URL with multiple fallbacks
+  const getImageUrl = (imagePath: string | null): string | null => {
+    if (!imagePath) return null;
+    const url = mediaURL(imagePath);
+    console.log('ProductCard - Image URL constructed:', { imagePath, url });
+    return url;
+  };
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {

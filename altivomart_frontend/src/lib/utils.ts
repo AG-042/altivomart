@@ -11,8 +11,23 @@ export function mediaURL(url?: string | null): string | null {
   // If it's already a full URL, return as is
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
   
-  // Use development Django server by default
-  const origin = process.env.NEXT_PUBLIC_API_ORIGIN || 'http://127.0.0.1:8000';
+  // Get the API origin, fallback to API URL without /api suffix
+  let origin = process.env.NEXT_PUBLIC_API_ORIGIN;
+  
+  if (!origin && process.env.NEXT_PUBLIC_API_URL) {
+    // Extract origin from NEXT_PUBLIC_API_URL by removing /api suffix
+    origin = process.env.NEXT_PUBLIC_API_URL.replace('/api', '');
+  }
+  
+  // Final fallback for development
+  if (!origin) {
+    origin = 'http://127.0.0.1:8000';
+  }
+  
+  // Debug logging in development
+  if (process.env.NODE_ENV === 'development') {
+    console.log('mediaURL debug:', { url, origin, apiUrl: process.env.NEXT_PUBLIC_API_URL });
+  }
   
   // Handle different URL formats
   if (url.startsWith('/media/')) return `${origin}${url}`;

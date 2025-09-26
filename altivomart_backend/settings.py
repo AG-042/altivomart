@@ -31,7 +31,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # For cPanel hosting - add your domain here
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,api.altivomart.com').split(',')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,api.altivomart.com,altivomart.com').split(',')
 
 # Additional security settings for production - moved to bottom with other security settings
 
@@ -201,7 +201,7 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@altivomart.com')
 SERVER_EMAIL = os.getenv('SERVER_EMAIL', DEFAULT_FROM_EMAIL)
 
 # Tracking base URL used in emails
-TRACKING_BASE_URL = os.getenv('TRACKING_BASE_URL', 'https://api.altivomart.com//track')
+TRACKING_BASE_URL = os.getenv('TRACKING_BASE_URL', 'https://altivomart.com/track')
 
 # Security settings (only applied when not in DEBUG mode)
 if not DEBUG:
