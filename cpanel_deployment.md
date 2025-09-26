@@ -40,11 +40,24 @@ CORS_ALLOWED_ORIGINS=https://yourdomain.com,https://your-frontend-url.com
 
 ### 5. Database Setup
 The application uses SQLite database (db.sqlite3 file) - no additional database setup needed in cPanel.
-Run migrations via SSH or cPanel terminal:
+
+**Initial Deployment:**
+Your first deployment includes a pre-populated database with sample products.
+
+**Subsequent Deployments:**
+⚠️ **Important**: The database file is excluded from future commits to prevent overwriting production data.
+
+Run these commands via SSH or cPanel terminal:
 ```bash
-python manage.py migrate
+python manage.py migrate  # Apply any new migrations
 python manage.py collectstatic --noinput
 python manage.py check_media  # Verify media files are working
+```
+
+**Database Backup Recommendation:**
+Always backup your `db.sqlite3` file before deploying updates:
+```bash
+cp db.sqlite3 db.sqlite3.backup.$(date +%Y%m%d_%H%M%S)
 ```
 
 ### 6. Static and Media Files Setup
@@ -88,9 +101,15 @@ NEXT_PUBLIC_API_URL=https://yourdomain.com/api
 - Check error logs in cPanel
 
 ### Issue: Database connection
-- SQLite database (db.sqlite3) is included in your deployment
+- SQLite database (db.sqlite3) is included in initial deployment
 - No additional database setup required
 - Ensure db.sqlite3 has proper file permissions (644 or 664)
+
+### Database Management in Production
+- **Backup regularly**: `cp db.sqlite3 db.sqlite3.backup.$(date +%Y%m%d)`
+- **Updates preserve data**: Future code updates won't overwrite your database
+- **Manual migrations**: Run `python manage.py migrate` after code updates
+- **Admin access**: Use Django admin at `https://yourdomain.com/admin/`
 
 ### Issue: Static files not serving
 - Run collectstatic command: `python manage.py collectstatic --noinput`
