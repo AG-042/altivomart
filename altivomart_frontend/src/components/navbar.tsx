@@ -24,7 +24,7 @@ export function Navbar() {
 
   const navItems = [
     { href: "/", label: "Home" },
-    { href: "/products", label: "Products" },
+    { href: "/products", label: "Tools" },
     { href: "/track", label: "Track Order" },
     { href: "/how-to-use", label: "How to Use" },
     { href: "/contact", label: "Contact" },
@@ -124,7 +124,7 @@ export function Navbar() {
             >
               <motion.input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search tools..."
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
                 className={`w-full pl-10 pr-4 py-2.5 rounded-full text-sm transition-all duration-300 border-2 ${
@@ -251,7 +251,7 @@ export function Navbar() {
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Search products..."
+                    placeholder="Search tools..."
                     className={`w-full pl-10 pr-4 py-3 rounded-lg text-sm transition-colors ${
                       isScrolled
                         ? "bg-gray-50 text-gray-900 border border-gray-200 focus:border-primary"

@@ -137,7 +137,7 @@ export function HeroSection() {
                 <span className="text-accent">AltivoMart</span>
                 <br />
                 <span className="text-2xl sm:text-3xl md:text-4xl font-light text-white/90">
-                  Where Shopping Meets Convenience
+                  Home of Tools 🧰
                 </span>
               </h1>
             </motion.div>
@@ -146,8 +146,8 @@ export function HeroSection() {
               className="text-base sm:text-lg md:text-xl text-white/90 max-w-lg leading-relaxed"
               variants={itemVariants}
             >
-              Shop quality products with confidence — no upfront payment required. 
-              Simply pay when your order arrives at your doorstep.
+              Discover the perfect products for every need! From professional-grade equipment to everyday essentials — 
+              pay when your products arrive at your doorstep.
             </motion.p>
             
             <motion.div 
@@ -167,7 +167,7 @@ export function HeroSection() {
                       transition={{ type: "spring", stiffness: 400 }}
                     >
                       <ShoppingBag className="mr-2 h-5 w-5" />
-                      Explore Products
+                      Shop Products
                     </motion.div>
                   </Button>
                 </motion.div>

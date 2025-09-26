@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Mail, Phone, MapPin, Clock, Send, MessageSquare } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Send, MessageSquare, MessageCircle } from "lucide-react";
 
 export default function ContactPage() {
   const [form, setForm] = useState({
@@ -59,7 +59,7 @@ export default function ContactPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-secondary mb-2">Contact Us</h1>
-          <p className="text-muted">We're here to help. Reach out and we'll get back to you as soon as we can.</p>
+          <p className="text-muted">Need help finding the right products? We're here to help. Reach out and we'll get back to you as soon as we can.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -78,10 +78,17 @@ export default function ContactPage() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <Phone className="h-5 w-5 text-primary mt-0.5" />
+                  <MessageCircle className="h-5 w-5 text-green-500 mt-0.5" />
                   <div>
-                    <p className="font-medium text-secondary">Phone</p>
-                    <a href="tel:+2348000000000" className="hover:text-primary">+234 800 000 0000</a>
+                    <p className="font-medium text-secondary">WhatsApp</p>
+                    <a 
+                      href="https://wa.me/2349132780502" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="hover:text-green-500 transition-colors"
+                    >
+                      +234 913 278 0502
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
@@ -164,6 +171,26 @@ export default function ContactPage() {
                     <p className="text-xs text-muted">We usually respond within one business day.</p>
                   </div>
                 </form>
+              </CardContent>
+            </Card>
+
+            {/* WhatsApp Quick Contact */}
+            <Card className="mt-6">
+              <CardContent className="p-6">
+                <div className="text-center">
+                  <h3 className="text-lg font-semibold mb-2">Need Immediate Help?</h3>
+                  <p className="text-muted mb-4">Get instant support via WhatsApp</p>
+                  <a
+                    href="https://wa.me/2349132780502?text=Hello%2C%20I%20need%20help%20finding%20the%20right%20products%20for%20my%20project"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  >
+                    <MessageCircle className="h-5 w-5" />
+                    Chat with us on WhatsApp
+                  </a>
+                  <p className="text-xs text-muted mt-2">Available during business hours</p>
+                </div>
               </CardContent>
             </Card>
           </div>

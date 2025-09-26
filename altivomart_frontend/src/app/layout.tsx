@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CartProvider } from "@/contexts/cart-context";
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+import { WhatsAppFloat } from "@/components/whatsapp-float";
 
 export const metadata: Metadata = {
-  title: "Altivomart - Nigerian E-commerce with Pay on Delivery",
-  description: "Shop quality products with pay on delivery across Nigeria. Fast delivery, trusted service.",
+  title: "Altivomart - Home of Tools 🧰",
+  description: "Home of Tools 🧰 - Your trusted source for quality products with pay on delivery across Nigeria. Fast delivery, trusted service.",
 };
 
 export default function RootLayout({
@@ -22,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className="font-sans antialiased">
         <CartProvider>
           <div className="min-h-screen flex flex-col">
             <Navbar />
@@ -30,6 +25,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <WhatsAppFloat />
           </div>
         </CartProvider>
       </body>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 
 export function Footer() {
   const containerVariants = {
@@ -53,8 +53,8 @@ export function Footer() {
               className="text-gray-300 mb-4"
               variants={itemVariants}
             >
-              Your trusted e-commerce platform in Nigeria. We deliver quality products 
-              right to your doorstep with our reliable pay-on-delivery service.
+              Home of Tools 🧰 - Your trusted source for quality products in Nigeria. 
+              We deliver the right products for every job with reliable pay-on-delivery service.
             </motion.p>
             <motion.div 
               className="space-y-2"
@@ -66,8 +66,15 @@ export function Footer() {
                 whileHover={{ x: 5 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
-                <Phone className="h-4 w-4" />
-                <span className="text-sm">+234 (0) 123 456 7890</span>
+                <a 
+                  href="https://wa.me/2349132780502"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-2 text-gray-300 hover:text-green-400 transition-colors"
+                >
+                  <MessageCircle className="h-4 w-4" />
+                  <span className="text-sm">+234 913 278 0502</span>
+                </a>
               </motion.div>
               <motion.div 
                 className="flex items-center space-x-2"

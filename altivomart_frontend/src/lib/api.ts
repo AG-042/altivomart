@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.altivomart.com/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api';
 
 // Types for API responses
 export interface ProductImage {
@@ -8,6 +8,22 @@ export interface ProductImage {
   is_primary: boolean;
 }
 
+export interface ProductVideo {
+  id: number;
+  video: string;
+  video_url: string;
+  title: string;
+  description: string;
+  autoplay: boolean;
+  loop: boolean;
+  muted: boolean;
+  show_controls: boolean;
+  is_featured: boolean;
+  order: number;
+  file_size_mb: number;
+  created_at: string;
+}
+
 export interface Product {
   id: number;
   name: string;
@@ -15,6 +31,7 @@ export interface Product {
   formatted_price: string;
   in_stock: boolean;
   main_image?: string | null;
+  main_video?: string | null;
   category_name: string;
   brand: string;
   featured: boolean;
@@ -25,7 +42,14 @@ export interface Product {
   how_to_use?: string;
   tags?: string;
   images?: ProductImage[];
+  videos?: ProductVideo[];
   all_images?: string[];
+  all_videos?: any[];
+  video_urls?: string[];
+  product_details?: string[];
+  details_list?: string[];
+  product_benefits?: string[];
+  benefits_list?: string[];
 }
 
 export interface OrderItem {

@@ -9,6 +9,46 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Trash2, Plus, Minus, ShoppingBag, ArrowLeft } from "lucide-react";
 import { mediaURL } from "@/lib/utils";
 
+// Product Image Component with proper error handling
+function ProductImage({ product, className }: { product: any; className: string }) {
+  const [imageError, setImageError] = useState(false);
+  
+  const getImageUrl = () => {
+    // Try multiple image sources
+    const sources = [
+      product.main_image,
+      product.images?.[0]?.image,
+      product.all_images?.[0]
+    ].filter(Boolean);
+    
+    return sources[0] ? mediaURL(sources[0]) : null;
+  };
+
+  const imageUrl = getImageUrl();
+
+  if (!imageUrl || imageError) {
+    return (
+      <div className={`${className} flex items-center justify-center bg-gray-100`}>
+        <div className="text-center">
+          <div className="w-8 h-8 mx-auto mb-1 bg-gray-300 rounded"></div>
+          <span className="text-gray-400 text-xs">No Image</span>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <Image
+      src={imageUrl}
+      alt={product.name}
+      fill
+      className={`object-cover ${className}`}
+      unoptimized={true}
+      onError={() => setImageError(true)}
+    />
+  );
+}
+
 export function CartClient() {
   const { items, total, updateQuantity, removeItem, clearCart } = useCart();
 
@@ -101,19 +141,11 @@ export function CartClient() {
                   <div className="flex flex-col sm:flex-row gap-4">
                     {/* Product Image */}
                     <div className="flex-shrink-0">
-                      <div className="w-24 h-24 relative overflow-hidden rounded-lg border border-border">
-                        {item.product.main_image ? (
-                          <Image
-                            src={mediaURL(item.product.main_image) || ""}
-                            alt={item.product.name}
-                            fill
-                            className="object-cover"
-                          />
-                        ) : (
-                          <div className="flex items-center justify-center h-full bg-gray-100">
-                            <span className="text-gray-400 text-xs">No Image</span>
-                          </div>
-                        )}
+                      <div className="w-24 h-24 relative overflow-hidden rounded-lg border border-border bg-gray-50">
+                        <ProductImage 
+                          product={item.product} 
+                          className="w-full h-full" 
+                        />
                       </div>
                     </div>
 
