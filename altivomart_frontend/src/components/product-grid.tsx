@@ -74,9 +74,11 @@ export function ProductGrid() {
             <p className="text-sm text-muted mt-2">Please check back later or contact support.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 w-full">
             {products.map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
+              <div key={product.id} className="w-full">
+                <ProductCard product={product} index={index} />
+              </div>
             ))}
           </div>
         )}

@@ -99,7 +99,7 @@ export function HeroSection() {
   ];
 
   return (
-    <section className="relative min-h-[35vh] sm:min-h-[70vh] bg-gradient-to-br from-primary via-secondary to-accent overflow-hidden">
+    <section className="relative min-h-[40vh] sm:min-h-[70vh] bg-gradient-to-br from-primary via-secondary to-accent overflow-hidden">
       {/* Simplified background effects - hidden on mobile for performance */}
       <div className="absolute inset-0 hidden sm:block">
         <motion.div
@@ -130,214 +130,66 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 pt-2 sm:pt-20 pb-2 sm:pb-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-20 pb-6 sm:pb-12 relative z-10">
         {/* Mobile-first layout */}
         <div className="text-center lg:text-left">
-          {/* Mobile Hero Content - Clean Stacked Layout */}
-          <div className="lg:hidden space-y-3">
-            {/* Mobile Header */}
-            <motion.div 
-              className="text-white space-y-2"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
+          {/* Mobile Hero Content */}
+          <div className="lg:hidden space-y-4">
+            <motion.h1 
+              className="text-2xl font-bold text-white leading-tight"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
             >
-              <motion.div variants={itemVariants}>
-                <h1 className="text-3xl md:text-4xl font-bold leading-tight text-center">
-                  <span className="text-accent">AltivoMart</span>
-                  <br />
-                  <span className="text-xl md:text-2xl font-light text-white/90">
-                    Home of Tools 
-                  </span>
-                </h1>
-              </motion.div>
-              
-              <motion.p 
-                className="text-sm text-white/90 text-center leading-relaxed px-2"
-                variants={itemVariants}
-              >
-                Professional equipment to everyday essentials — pay on delivery!
-              </motion.p>
-            </motion.div>
-
-            {/* Mobile Action Buttons */}
-            <motion.div 
-              className="flex gap-2 px-3"
-              variants={itemVariants}
-              initial="hidden"
-              animate="visible"
+              <span className="text-accent">AltivoMart</span>
+              <br />
+              <span className="text-lg font-light text-white/90">
+                Home of Tools 🧰
+              </span>
+            </motion.h1>
+            
+            <motion.p 
+              className="text-sm text-white/90"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <Link href="/products" className="flex-1">
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full"
-                >
-                  <Button className="w-full bg-white text-secondary hover:bg-white/90 text-sm px-4 py-2 shadow-lg">
-                    <ShoppingBag className="mr-1 h-3 w-3" />
-                    Shop
-                  </Button>
-                </motion.div>
-              </Link>
-              
-              <Link href="/track" className="flex-1">
-                <Button 
-                  className="w-full bg-white/20 backdrop-blur-sm border-2 border-white/60 text-white hover:bg-white hover:text-secondary text-sm px-4 py-2"
-                >
-                  <Search className="mr-1 h-3 w-3" />
-                  Track
+              Quality products • Pay on delivery 🚚
+            </motion.p>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <Link href="/products">
+                <Button className="bg-white text-secondary hover:bg-white/90 px-8 py-3 text-base font-medium shadow-lg">
+                  <ShoppingBag className="h-4 w-4 mr-2" />
+                  Shop Now
                 </Button>
               </Link>
             </motion.div>
-
-            {/* Mobile Features */}
+            
+            {/* Mobile features - simplified */}
             <motion.div 
-              className="grid grid-cols-3 gap-2 px-3 text-center"
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
+              className="grid grid-cols-3 gap-2 pt-4 text-center"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
             >
-              {features.map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  className="group"
-                  variants={itemVariants}
-                >
-                  <motion.div 
-                    className="bg-white/20 p-2 rounded-lg mx-auto w-fit mb-1"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.6 }}
-                  >
-                    <feature.icon className="h-3 w-3 text-white" />
-                  </motion.div>
-                  <div className="text-white">
-                    <h3 className="font-medium text-xs">{feature.title}</h3>
-                    <p className="text-white/70 text-xs">{feature.description}</p>
-                  </div>
-                </motion.div>
-              ))}
+              <div className="text-white/90">
+                <Truck className="h-5 w-5 mx-auto mb-1" />
+                <span className="text-xs">Fast Delivery</span>
+              </div>
+              <div className="text-white/90">
+                <Shield className="h-5 w-5 mx-auto mb-1" />
+                <span className="text-xs">Pay on Delivery</span>
+              </div>
+              <div className="text-white/90">
+                <Star className="h-5 w-5 mx-auto mb-1" />
+                <span className="text-xs">Quality Assured</span>
+              </div>
             </motion.div>
-
-            {/* Mobile Product Showcase */}
-            {!loading && featuredProducts.length > 0 && (
-              <motion.div 
-                className="relative px-3"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
-                <div className="relative h-[180px] bg-white/10 backdrop-blur-md rounded-xl overflow-hidden shadow-lg">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={currentSlide}
-                      initial={{ opacity: 0, x: 200 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -200 }}
-                      transition={{ duration: 0.4, ease: "easeInOut" }}
-                      className="absolute inset-0 p-3 flex flex-col"
-                    >
-                      <div className="flex-1 relative mb-2">
-                        {featuredProducts[currentSlide]?.main_image && !imageErrors[featuredProducts[currentSlide].id] ? (
-                          <motion.div
-                            className="relative w-full h-full rounded-xl overflow-hidden"
-                            whileHover={{ scale: 1.01 }}
-                            transition={{ duration: 0.3 }}
-                          >
-                            <img
-                              src={getImageUrl(featuredProducts[currentSlide].main_image) || ''}
-                              alt={featuredProducts[currentSlide].name}
-                              className="absolute inset-0 w-full h-full object-cover"
-                              onError={() => {
-                                setImageErrors(prev => ({
-                                  ...prev,
-                                  [featuredProducts[currentSlide].id]: true
-                                }));
-                              }}
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                          </motion.div>
-                        ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center">
-                            <div className="text-center">
-                              <ShoppingBag className="h-10 w-10 text-gray-400 mx-auto mb-2" />
-                              <p className="text-gray-600 text-sm font-medium">Product Image</p>
-                              <p className="text-gray-400 text-xs">Coming Soon</p>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="text-white text-center">
-                        <h3 className="text-sm font-bold line-clamp-2 mb-1">
-                          {featuredProducts[currentSlide].name}
-                        </h3>
-                        <p className="text-accent text-lg font-bold">
-                          ₦{parseFloat(featuredProducts[currentSlide].price).toLocaleString()}
-                        </p>
-                        <div className="flex items-center justify-center space-x-1 mt-1">
-                          <span className="px-2 py-0.5 rounded-full text-xs bg-green-500/20 text-green-300">
-                            {featuredProducts[currentSlide].in_stock ? "In Stock" : "Out of Stock"}
-                          </span>
-                          {featuredProducts[currentSlide].brand && (
-                            <span className="px-2 py-0.5 rounded-full text-xs bg-white/20 text-white/90">
-                              {featuredProducts[currentSlide].brand}
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
-
-                  <motion.button
-                    onClick={prevSlide}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <ChevronLeft className="h-3 w-3" />
-                  </motion.button>
-                  <motion.button
-                    onClick={nextSlide}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-colors"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <ChevronRight className="h-3 w-3" />
-                  </motion.button>
-                </div>
-
-                <div className="flex justify-center space-x-1 mt-2">
-                  {featuredProducts.map((_, index) => (
-                    <motion.button
-                      key={index}
-                      onClick={() => setCurrentSlide(index)}
-                      className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                        index === currentSlide 
-                          ? "bg-accent" 
-                          : "bg-white/30"
-                      }`}
-                      whileTap={{ scale: 0.9 }}
-                    />
-                  ))}
-                </div>
-
-                <motion.div 
-                  className="flex justify-center mt-2"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <Link href={`/products/${featuredProducts[currentSlide]?.id}`}>
-                    <Button 
-                      variant="outline" 
-                      className="border-white/50 text-white hover:bg-white hover:text-secondary backdrop-blur-md bg-white/10 text-xs px-3 py-1"
-                    >
-                      View Details
-                    </Button>
-                  </Link>
-                </motion.div>
-              </motion.div>
-            )}
           </div>
 
           {/* Desktop Hero Content */}
@@ -353,7 +205,7 @@ export function HeroSection() {
                   <span className="text-accent">AltivoMart</span>
                   <br />
                   <span className="text-4xl font-light text-white/90">
-                    Home of Tools 
+                    Home of Tools 🧰
                   </span>
                 </h1>
               </motion.div>
@@ -436,7 +288,7 @@ export function HeroSection() {
             </motion.div>
 
             <motion.div 
-              className="relative w-full"
+              className="relative"
               initial={{ opacity: 0, x: 100 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
@@ -446,8 +298,8 @@ export function HeroSection() {
                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
                 </div>
               ) : featuredProducts.length > 0 ? (
-                <div className="relative w-full max-w-lg mx-auto lg:mx-0">
-                  <div className="relative h-[350px] sm:h-[400px] w-full bg-white/10 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl">
+                <div className="relative">
+                  <div className="relative h-[350px] sm:h-[400px] bg-white/10 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={currentSlide}
@@ -584,7 +436,7 @@ export function HeroSection() {
                   </motion.div>
                 </div>
               ) : (
-                <div className="aspect-square bg-white/10 backdrop-blur-md rounded-3xl flex items-center justify-center w-full max-w-lg mx-auto lg:mx-0">
+                <div className="aspect-square bg-white/10 backdrop-blur-md rounded-3xl flex items-center justify-center">
                   <p className="text-white/70">No featured products available</p>
                 </div>
               )}

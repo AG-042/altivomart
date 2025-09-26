@@ -7,7 +7,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/lib/api";
 import { useCart } from "@/contexts/cart-context";
-import { ShoppingCart, ShoppingBag, Plus, Minus, Star } from "lucide-react";
+import { ShoppingCart, ShoppingBag, Plus, Minus, Star, Eye } from "lucide-react";
 import { mediaURL } from "@/lib/utils";
 
 interface ProductCardProps {
@@ -162,7 +162,8 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                   className="w-full h-11 border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 text-primary font-medium transition-all duration-300 shadow-sm hover:shadow-md" 
                   disabled={!product.in_stock}
                 >
-                  View Details
+                  <Eye className="h-4 w-4 sm:mr-2" />
+                  <span className="hidden sm:inline">View Details</span>
                 </Button>
               </motion.div>
             </Link>
@@ -178,11 +179,10 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                 disabled={!product.in_stock}
                 className="w-full h-11 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:from-gray-400 disabled:to-gray-400 disabled:shadow-none"
               >
-                <ShoppingCart className="h-4 w-4 mr-2" />
+                <ShoppingCart className="h-4 w-4 sm:mr-2" />
                 <span className="hidden sm:inline">Add to Cart</span>
-                <span className="sm:hidden">Add</span>
                 {quantity > 1 && (
-                  <span className="ml-2 bg-white/20 px-2 py-0.5 rounded-full text-xs font-bold">
+                  <span className="ml-1 sm:ml-2 bg-white/20 px-1 sm:px-2 py-0.5 rounded-full text-xs font-bold">
                     {quantity}
                   </span>
                 )}
