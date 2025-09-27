@@ -24,7 +24,7 @@ export function Navbar() {
 
   const navItems = [
     { href: "/", label: "Home" },
-    { href: "/products", label: "Tools" },
+    { href: "/products", label: "Products" },
     { href: "/track", label: "Track Order" },
     { href: "/how-to-use", label: "How to Use" },
     { href: "/contact", label: "Contact" },
@@ -44,7 +44,7 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-14 sm:h-20">
           {/* Logo */}
           <motion.div 
             className="flex-shrink-0"
@@ -53,7 +53,7 @@ export function Navbar() {
           >
             <Link 
               href="/" 
-              className={`text-3xl font-bold transition-colors duration-300 ${
+              className={`text-xl sm:text-3xl font-bold transition-colors duration-300 ${
                 isScrolled 
                   ? "text-secondary hover:text-primary" 
                   : "text-white hover:text-accent"
@@ -124,7 +124,7 @@ export function Navbar() {
             >
               <motion.input
                 type="text"
-                placeholder="Search tools..."
+                placeholder="Search products..."
                 onFocus={() => setSearchFocused(true)}
                 onBlur={() => setSearchFocused(false)}
                 className={`w-full pl-10 pr-4 py-2.5 rounded-full text-sm transition-all duration-300 border-2 ${
@@ -167,7 +167,7 @@ export function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              className={`p-2 rounded-md transition-colors ${
+              className={`p-1.5 sm:p-2 rounded-md transition-colors ${
                 isScrolled 
                   ? "text-gray-600 hover:text-primary hover:bg-gray-100" 
                   : "text-white hover:text-accent hover:bg-white/10"
@@ -182,7 +182,7 @@ export function Navbar() {
                     exit={{ rotate: 90, opacity: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <X className="h-6 w-6" />
+                    <X className="h-5 w-5 sm:h-6 sm:w-6" />
                   </motion.div>
                 ) : (
                   <motion.div
@@ -192,7 +192,7 @@ export function Navbar() {
                     exit={{ rotate: -90, opacity: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Menu className="h-6 w-6" />
+                    <Menu className="h-5 w-5 sm:h-6 sm:w-6" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -227,6 +227,7 @@ export function Navbar() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1 + (index * 0.05) }}
                 >
+                
                   <Link 
                     href={item.href}
                     onClick={() => setIsOpen(false)}
@@ -251,7 +252,7 @@ export function Navbar() {
                 <div className="relative">
                   <input
                     type="text"
-                    placeholder="Search tools..."
+                    placeholder="Search products..."
                     className={`w-full pl-10 pr-4 py-3 rounded-lg text-sm transition-colors ${
                       isScrolled
                         ? "bg-gray-50 text-gray-900 border border-gray-200 focus:border-primary"

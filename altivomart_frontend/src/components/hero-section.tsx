@@ -84,17 +84,17 @@ export function HeroSection() {
     {
       icon: Truck,
       title: "Fast Delivery",
-      description: "2-5 days nationwide"
+      description: ""
     },
     {
       icon: Shield,
       title: "Pay on Delivery",
-      description: "No upfront payment"
+      description: ""
     },
     {
       icon: Star,
       title: "Quality Assured",
-      description: "Trusted brands only"
+      description: ""
     }
   ];
 
@@ -226,7 +226,7 @@ export function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <div className="relative h-[180px] bg-white/10 backdrop-blur-md rounded-xl overflow-hidden shadow-lg">
+                <div className="relative h-[250px] bg-white/10 backdrop-blur-md rounded-xl overflow-hidden shadow-lg">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={currentSlide}
@@ -447,7 +447,7 @@ export function HeroSection() {
                 </div>
               ) : featuredProducts.length > 0 ? (
                 <div className="relative w-full max-w-lg mx-auto lg:mx-0">
-                  <div className="relative h-[350px] sm:h-[400px] w-full bg-white/10 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl">
+                  <div className="relative h-[420px] sm:h-[400px] w-full bg-white/10 backdrop-blur-md rounded-3xl overflow-hidden shadow-2xl">
                     <AnimatePresence mode="wait">
                       <motion.div
                         key={currentSlide}

@@ -21,7 +21,7 @@ export default function RootLayout({
         <CartProvider>
           <div className="min-h-screen flex flex-col">
             <Navbar />
-            <main className="flex-1 pt-16">{/* Add top padding for fixed navbar */}
+            <main className="flex-1 pt-14 sm:pt-16">{/* Add top padding for fixed navbar */}
               {children}
             </main>
             <Footer />
