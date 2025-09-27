@@ -173,6 +173,9 @@ export const fetchProduct = async (id: string): Promise<Product> => {
 
 export async function createOrder(orderData: OrderRequest): Promise<Order | null> {
   try {
+    console.log('Creating order with API URL:', API_BASE_URL);
+    console.log('Order data:', orderData);
+    
     const response = await fetch(`${API_BASE_URL}/orders/create/`, {
       method: 'POST',
       headers: {
@@ -181,12 +184,26 @@ export async function createOrder(orderData: OrderRequest): Promise<Order | null
       body: JSON.stringify(orderData),
     });
     
+    console.log('Response status:', response.status);
+    console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+    
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.detail || 'Failed to create order');
+      // Check if response is HTML (server error page) or JSON
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Failed to create order');
+      } else {
+        // Server returned HTML error page instead of JSON
+        const errorText = await response.text();
+        console.error('Server returned HTML error page:', errorText.substring(0, 500));
+        throw new Error(`Server error (${response.status}): The server returned an error page instead of valid JSON. This may indicate a backend configuration issue.`);
+      }
     }
     
-    return await response.json();
+    const result = await response.json();
+    console.log('Order created successfully:', result);
+    return result;
   } catch (error) {
     console.error('Error creating order:', error);
     throw error;

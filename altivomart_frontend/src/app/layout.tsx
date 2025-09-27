@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CartProvider } from "@/contexts/cart-context";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
+import { DebugInfo } from "@/components/debug-info";
 
 export const metadata: Metadata = {
   title: "Altivomart - Home of Tools 🧰",
@@ -26,6 +27,7 @@ export default function RootLayout({
             </main>
             <Footer />
             <WhatsAppFloat />
+            <DebugInfo />
           </div>
         </CartProvider>
       </body>
