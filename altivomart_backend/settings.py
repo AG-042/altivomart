@@ -12,7 +12,19 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import sys
+import locale
 from dotenv import load_dotenv
+
+# Force UTF-8 encoding for production environments (fixes Unicode errors)
+if sys.version_info[0] == 3:
+    try:
+        locale.setlocale(locale.LC_ALL, 'C.UTF-8')
+    except locale.Error:
+        try:
+            locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+        except locale.Error:
+            pass  # If locale setting fails, continue with default
 
 # Load environment variables from .env file
 load_dotenv()
@@ -157,6 +169,10 @@ if not DEBUG:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# UTF-8 Character Encoding (prevents UnicodeEncodeError in production)
+DEFAULT_CHARSET = 'utf-8'
+FILE_CHARSET = 'utf-8'
+
 # Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -193,8 +209,9 @@ else:
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST', 'mail.spacemail.com')
 EMAIL_PORT = int(os.getenv('EMAIL_PORT', '465'))
+# Port 465 uses SSL, Port 587 uses TLS - they are mutually exclusive
 EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL', 'True') == 'True'
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'False') == 'False'
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'False') == 'True'  # Fixed: was == 'False'
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'noreply@altivomart.com')

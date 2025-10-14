@@ -75,36 +75,39 @@ export function CheckoutForm() {
     setSubmitting(true);
     setError(null);
 
+    // Prepare order items outside try block so it's accessible in catch
+    let orderItems;
+    if (product) {
+      // Single product checkout
+      orderItems = [{
+        product_id: product.id,
+        quantity: formData.quantity,
+      }];
+    } else {
+      // Cart checkout
+      orderItems = items.map(item => ({
+        product_id: item.product.id,
+        quantity: item.quantity,
+      }));
+    }
+
+    const orderData: OrderRequest = {
+      customer_name: formData.customer_name,
+      phone_number: formData.phone_number,
+      customer_email: formData.customer_email || undefined,
+      address: formData.address,
+      city: formData.city || undefined,
+      state: formData.state || undefined,
+      landmark: formData.landmark || undefined,
+      delivery_instructions: formData.delivery_instructions || undefined,
+      items: orderItems,
+    };
+
     try {
-      // Prepare order items
-      let orderItems;
-      if (product) {
-        // Single product checkout
-        orderItems = [{
-          product_id: product.id,
-          quantity: formData.quantity,
-        }];
-      } else {
-        // Cart checkout
-        orderItems = items.map(item => ({
-          product_id: item.product.id,
-          quantity: item.quantity,
-        }));
-      }
-
-      const orderData: OrderRequest = {
-        customer_name: formData.customer_name,
-        phone_number: formData.phone_number,
-        customer_email: formData.customer_email || undefined,
-        address: formData.address,
-        city: formData.city || undefined,
-        state: formData.state || undefined,
-        landmark: formData.landmark || undefined,
-        delivery_instructions: formData.delivery_instructions || undefined,
-        items: orderItems,
-      };
-
+      console.log('Creating order with data:', orderData);
       const order = await createOrder(orderData);
+      console.log('Order created successfully:', order);
+      
       if (order) {
         setOrderId(order.id);
         setTrackingCode(order.tracking_code);
@@ -115,7 +118,16 @@ export function CheckoutForm() {
         }
       }
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Failed to create order");
+      console.error('Error creating order:', error);
+      console.error('Error details:', {
+        message: error instanceof Error ? error.message : "Unknown error",
+        stack: error instanceof Error ? error.stack : undefined,
+        orderData
+      });
+      
+      // Show detailed error message
+      const errorMessage = error instanceof Error ? error.message : "Failed to create order";
+      setError(`Order creation failed: ${errorMessage}. Please check all required fields.`);
     } finally {
       setSubmitting(false);
     }
@@ -351,7 +363,7 @@ export function CheckoutForm() {
                 value={formData.address}
                 onChange={handleInputChange}
                 required
-                placeholder="Enter your complete address"
+                placeholder="e.g., Plot 155, Hillstone, Life Camp, Abuja"
                 rows={3}
               />
             </div>
@@ -364,7 +376,7 @@ export function CheckoutForm() {
                   name="city"
                   value={formData.city}
                   onChange={handleInputChange}
-                  placeholder="e.g., Lagos"
+                  placeholder="e.g., Abuja"
                 />
               </div>
               
@@ -375,7 +387,7 @@ export function CheckoutForm() {
                   name="state"
                   value={formData.state}
                   onChange={handleInputChange}
-                  placeholder="e.g., Lagos State"
+                  placeholder="e.g., FCT"
                 />
               </div>
             </div>
@@ -387,7 +399,7 @@ export function CheckoutForm() {
                 name="landmark"
                 value={formData.landmark}
                 onChange={handleInputChange}
-                placeholder="e.g., Near Shoprite Mall"
+                placeholder="e.g., Near Shoprite, Jabi Lake Mall"
               />
             </div>
 

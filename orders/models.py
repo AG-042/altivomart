@@ -49,6 +49,20 @@ class Order(models.Model):
         return f"Order #{self.id} - {self.customer_name}"
 
     def save(self, *args, **kwargs):
+        # Ensure all text fields are UTF-8 compatible (prevents UnicodeEncodeError in production)
+        if self.customer_name:
+            self.customer_name = str(self.customer_name).encode('utf-8', errors='replace').decode('utf-8')
+        if self.address:
+            self.address = str(self.address).encode('utf-8', errors='replace').decode('utf-8')
+        if self.city:
+            self.city = str(self.city).encode('utf-8', errors='replace').decode('utf-8')
+        if self.state:
+            self.state = str(self.state).encode('utf-8', errors='replace').decode('utf-8')
+        if self.landmark:
+            self.landmark = str(self.landmark).encode('utf-8', errors='replace').decode('utf-8')
+        if self.delivery_instructions:
+            self.delivery_instructions = str(self.delivery_instructions).encode('utf-8', errors='replace').decode('utf-8')
+        
         # Set delivered_at when status changes to delivered
         if self.status == 'delivered' and not self.delivered_at:
             self.delivered_at = timezone.now()

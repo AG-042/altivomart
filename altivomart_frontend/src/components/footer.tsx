@@ -92,7 +92,7 @@ export function Footer() {
                 transition={{ type: "spring", stiffness: 400 }}
               >
                 <MapPin className="h-4 w-4" />
-                <span className="text-sm">Lagos, Nigeria</span>
+                <span className="text-sm">Plot 155, Hillstone, Life Camp, Abuja</span>
               </motion.div>
             </motion.div>
           </motion.div>

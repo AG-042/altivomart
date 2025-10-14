@@ -29,6 +29,61 @@ class OrderCreateSerializer(serializers.ModelSerializer):
             'id', 'customer_name', 'phone_number', 'customer_email', 'address', 'city', 'state', 
             'landmark', 'delivery_instructions', 'items', 'tracking_code'
         ]
+    
+    def validate_customer_name(self, value):
+        """Ensure customer name is UTF-8 compatible"""
+        if value:
+            try:
+                # Ensure value can be encoded/decoded properly
+                value = str(value).encode('utf-8', errors='replace').decode('utf-8')
+            except Exception:
+                raise serializers.ValidationError("Customer name contains unsupported characters")
+        return value
+    
+    def validate_address(self, value):
+        """Ensure address is UTF-8 compatible"""
+        if value:
+            try:
+                value = str(value).encode('utf-8', errors='replace').decode('utf-8')
+            except Exception:
+                raise serializers.ValidationError("Address contains unsupported characters")
+        return value
+    
+    def validate_city(self, value):
+        """Ensure city is UTF-8 compatible"""
+        if value:
+            try:
+                value = str(value).encode('utf-8', errors='replace').decode('utf-8')
+            except Exception:
+                raise serializers.ValidationError("City contains unsupported characters")
+        return value
+    
+    def validate_state(self, value):
+        """Ensure state is UTF-8 compatible"""
+        if value:
+            try:
+                value = str(value).encode('utf-8', errors='replace').decode('utf-8')
+            except Exception:
+                raise serializers.ValidationError("State contains unsupported characters")
+        return value
+    
+    def validate_landmark(self, value):
+        """Ensure landmark is UTF-8 compatible"""
+        if value:
+            try:
+                value = str(value).encode('utf-8', errors='replace').decode('utf-8')
+            except Exception:
+                raise serializers.ValidationError("Landmark contains unsupported characters")
+        return value
+    
+    def validate_delivery_instructions(self, value):
+        """Ensure delivery instructions are UTF-8 compatible"""
+        if value:
+            try:
+                value = str(value).encode('utf-8', errors='replace').decode('utf-8')
+            except Exception:
+                raise serializers.ValidationError("Delivery instructions contain unsupported characters")
+        return value
 
     def validate_items(self, value):
         if not value:

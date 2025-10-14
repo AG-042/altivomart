@@ -95,7 +95,7 @@ export default function ContactPage() {
                   <MapPin className="h-5 w-5 text-primary mt-0.5" />
                   <div>
                     <p className="font-medium text-secondary">Address</p>
-                    <p>Altivomart HQ, Lagos, Nigeria</p>
+                    <p>Plot 155, Hillstone, Life Camp, Abuja</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">

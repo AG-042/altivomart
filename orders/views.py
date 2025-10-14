@@ -12,6 +12,9 @@ from .serializers import (
 from notifications.utils import send_order_confirmation, send_status_update
 from django.utils import timezone
 from datetime import timedelta
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class OrderCreateView(generics.CreateAPIView):
@@ -19,34 +22,68 @@ class OrderCreateView(generics.CreateAPIView):
     serializer_class = OrderCreateSerializer
     permission_classes = [permissions.AllowAny]
 
+    def create(self, request, *args, **kwargs):
+        """Override to add detailed logging"""
+        logger.info(f"Received order creation request")
+        logger.info(f"Request data: {request.data}")
+        
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
+            logger.error(f"Order validation failed: {serializer.errors}")
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
     def perform_create(self, serializer):
-        order = serializer.save()
-        # Send confirmation email
-        send_order_confirmation(order)
-        # Create basic delivery info so tracking is available immediately
         try:
-            # Determine estimated delivery based on items' products
-            max_days = 3
+            logger.info("Creating new order...")
+            order = serializer.save()
+            logger.info(f"Order {order.id} created successfully with tracking code {order.tracking_code}")
+            
+            # Send confirmation email (wrapped in try-except to prevent email failures from blocking order)
             try:
-                item_days = []
-                for item in order.items.all():
-                    days = getattr(item.product, 'estimated_delivery_days', None)
-                    if isinstance(days, int) and days > 0:
-                        item_days.append(days)
-                if item_days:
-                    max_days = max(item_days)
-            except Exception:
-                pass
-            estimated = timezone.now() + timedelta(days=max_days)
-            DeliveryInfo.objects.create(
-                order=order,
-                delivery_status='assigned',
-                estimated_delivery=estimated,
-                delivery_notes='Delivery information initialized.',
-            )
-        except Exception:
-            # Do not fail order creation if delivery info init fails
-            pass
+                send_order_confirmation(order)
+                logger.info(f"Order confirmation email sent for order {order.id}")
+            except UnicodeEncodeError as e:
+                logger.error(f"Unicode error sending email for order {order.id}: {e}")
+                # Order is still created, just email failed
+            except Exception as e:
+                logger.error(f"Error sending confirmation email for order {order.id}: {e}")
+            
+            # Create basic delivery info so tracking is available immediately
+            try:
+                # Determine estimated delivery based on items' products
+                max_days = 3
+                try:
+                    item_days = []
+                    for item in order.items.all():
+                        days = getattr(item.product, 'estimated_delivery_days', None)
+                        if isinstance(days, int) and days > 0:
+                            item_days.append(days)
+                    if item_days:
+                        max_days = max(item_days)
+                except Exception as e:
+                    logger.warning(f"Error calculating delivery days: {e}")
+                
+                estimated = timezone.now() + timedelta(days=max_days)
+                DeliveryInfo.objects.create(
+                    order=order,
+                    delivery_status='assigned',
+                    estimated_delivery=estimated,
+                    delivery_notes='Delivery information initialized.',
+                )
+                logger.info(f"Delivery info created for order {order.id}")
+            except Exception as e:
+                logger.error(f"Error creating delivery info for order {order.id}: {e}")
+                # Do not fail order creation if delivery info init fails
+        except UnicodeEncodeError as e:
+            logger.error(f"Unicode encoding error during order creation: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Unexpected error during order creation: {e}")
+            raise
 
 
 class OrderDetailView(generics.RetrieveAPIView):
