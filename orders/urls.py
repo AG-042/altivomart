@@ -8,6 +8,7 @@ urlpatterns = [
     path('create/', views.OrderCreateView.as_view(), name='order-create'),
     path('<int:id>/', views.OrderDetailView.as_view(), name='order-detail'),
     path('<int:order_id>/track/', views.track_delivery, name='track-delivery'),
+    path('track/<str:code>/', views.track_by_code, name='track-by-code'),  # Track by tracking code
     
     # Admin APIs
     path('admin/', views.AdminOrderListView.as_view(), name='admin-order-list'),

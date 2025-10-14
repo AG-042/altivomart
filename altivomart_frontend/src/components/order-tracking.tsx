@@ -11,23 +11,23 @@ import { Loader2, Package, Truck, CheckCircle, Clock, MapPin } from "lucide-reac
 
 export function OrderTracking() {
   const searchParams = useSearchParams();
-  const initialOrderId = searchParams.get("order");
+  const initialCode = searchParams.get("code") || searchParams.get("order");
 
-  const [orderId, setOrderId] = useState(initialOrderId || "");
+  const [trackingCode, setTrackingCode] = useState(initialCode || "");
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState<Order | null>(null);
   const [delivery, setDelivery] = useState<DeliveryTracking | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (initialOrderId) {
+    if (initialCode) {
       handleTrackOrder();
     }
-  }, [initialOrderId]);
+  }, [initialCode]);
 
   const handleTrackOrder = async () => {
-    if (!orderId) {
-      setError("Please enter an order ID");
+    if (!trackingCode) {
+      setError("Please enter a tracking code");
       return;
     }
 
@@ -37,25 +37,49 @@ export function OrderTracking() {
     setDelivery(null);
 
     try {
-      const orderData = await fetchOrderDetails(parseInt(orderId));
+      // Check if input is a number (Order ID) or string (Tracking Code)
+      const isOrderId = /^\d+$/.test(trackingCode);
+      
+      let orderData;
+      if (isOrderId) {
+        // Track by Order ID
+        orderData = await fetchOrderDetails(parseInt(trackingCode));
+      } else {
+        // Track by Tracking Code - use delivery tracking endpoint which accepts codes
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+        const response = await fetch(`${API_URL}/api/orders/track/${trackingCode}/`);
+        
+        if (response.ok) {
+          const deliveryData = await response.json();
+          if (deliveryData && deliveryData.order_id) {
+            // Now fetch full order details using the order_id
+            orderData = await fetchOrderDetails(deliveryData.order_id);
+            setDelivery(deliveryData);
+          }
+        }
+      }
+      
       if (orderData) {
         setOrder(orderData);
         
-        // Try to get delivery tracking info
-        try {
-          const deliveryData = await trackDelivery(parseInt(orderId));
-          if (deliveryData) {
-            setDelivery(deliveryData);
+        // Try to get delivery tracking info if not already fetched
+        if (!delivery) {
+          try {
+            const deliveryData = await trackDelivery(orderData.id);
+            if (deliveryData) {
+              setDelivery(deliveryData);
+            }
+          } catch (deliveryError) {
+            // Delivery tracking might not be available yet
+            console.log("Delivery tracking not available yet");
           }
-        } catch (deliveryError) {
-          // Delivery tracking might not be available yet
-          console.log("Delivery tracking not available yet");
         }
       } else {
-        setError("Order not found. Please check your order ID.");
+        setError("Order not found. Please check your tracking code.");
       }
     } catch (error) {
-      setError("Failed to track order. Please check your order ID and try again.");
+      console.error("Tracking error:", error);
+      setError("Failed to track order. Please check your tracking code and try again.");
     } finally {
       setLoading(false);
     }
@@ -116,12 +140,12 @@ export function OrderTracking() {
         <CardContent>
           <div className="flex gap-4">
             <div className="flex-1">
-              <Label htmlFor="orderId">Order ID</Label>
+              <Label htmlFor="trackingCode">Tracking Code or Order ID</Label>
               <Input
-                id="orderId"
-                value={orderId}
-                onChange={(e) => setOrderId(e.target.value)}
-                placeholder="Enter your order ID"
+                id="trackingCode"
+                value={trackingCode}
+                onChange={(e) => setTrackingCode(e.target.value)}
+                placeholder="e.g., U1SSJ8FGHY or 14"
                 className="mt-1"
               />
             </div>
